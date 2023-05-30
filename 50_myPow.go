@@ -27,3 +27,22 @@ func myPow(x float64, n int) float64 {
 	}
 	return res
 }
+
+func myPow1(x float64, n int) float64 {
+	if n < 0 {
+		return 1.0 / quickMul(x, -n)
+	}
+	return quickMul(x, n)
+}
+func quickMul(x float64, N int) float64 {
+	res := 1.0
+	xCon := x
+	for N > 0 {
+		if N%2 == 1 {
+			res *= xCon
+		}
+		xCon *= x
+		N /= 2
+	}
+	return res
+}

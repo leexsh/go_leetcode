@@ -1,6 +1,9 @@
 package leetcode
 
-import "math"
+import (
+	"math"
+	"strings"
+)
 
 //
 //	mset := map[byte]int{}
@@ -43,4 +46,33 @@ func lengthOfLongestSubstring(s string) int {
 		}
 	}
 	return int(res)
+}
+
+// 返回最长无重复子串的内容
+func lengthOfLongestSubstringContent(s string) string {
+	if len(s) <= 0 {
+		return ""
+	}
+	i, j := 0, 0
+	res := 0.0
+	L, R := 0, 0
+	mp := make(map[byte]struct{})
+	for j < len(s) {
+		if _, ok := mp[s[j]]; !ok {
+			mp[s[j]] = struct{}{}
+			j++
+			if float64(j-i) > res {
+				L, R = i, j
+				res = float64(j - i)
+			}
+			res = math.Max(res, float64(j-i))
+		} else {
+			delete(mp, s[i])
+			i++
+		}
+	}
+	byteStr := []byte(s)
+	var ss strings.Builder
+	ss.Write(byteStr[L:R])
+	return ss.String()
 }

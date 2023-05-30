@@ -7,7 +7,8 @@ package leetcode
 */
 func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
 	l1, l2, m, n := len(nums1), len(nums2), 0, 0
-	var res []int
+	// var res []int
+	res := make([]int, 0, 0)
 	for m < l1 && n < l2 {
 		if nums1[m] < nums2[n] {
 			res = append(res, nums1[m])

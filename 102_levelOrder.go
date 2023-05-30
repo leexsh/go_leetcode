@@ -24,9 +24,7 @@ func levelOrder(root *TreeNode) [][]int {
 				deq = append(deq, node.Right)
 			}
 		}
-		t1 := make([]int, len(temp))
-		copy(t1, temp)
-		res = append(res, t1)
+		res = append(res, temp)
 	}
 	return res
 }

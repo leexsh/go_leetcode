@@ -23,7 +23,7 @@ func containsNearbyDuplicate1(nums []int, k int) bool {
 	set := make(map[int]struct{}, len(nums))
 	for i, num := range nums {
 		if i > k {
-			delete(set, i-k-1)
+			delete(set, nums[i-k-1])
 		}
 		if _, ok := set[num]; ok {
 			return true
