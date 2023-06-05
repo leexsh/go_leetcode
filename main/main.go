@@ -1,32 +1,51 @@
 package main
 
-import "fmt"
+import (
+	"context"
+	"fmt"
+	"time"
+)
 
-func longestConsecutive(nums []int) int {
-	res := 0
-	if len(nums) == 0 {
-		return res
-	}
-	mp := make(map[int]struct{})
-	for _, num := range nums {
-		mp[num] = struct{}{}
-	}
-	for i := range mp {
-		if _, ok := mp[i-1]; !ok {
-			curNum := i
-			curLen := 1
-			for _, ok := mp[curNum+1]; ok; {
-				curNum++
-				curLen++
+func makeRequest(url string) string {
+	s := "make request url is: " + url
+	return s
+}
+
+func handleRequest(ctx context.Context, urls []string) {
+	ctx, cancel := context.WithTimeout(ctx, time.Second*5)
+	defer cancel()
+
+	resultChan := make(chan string, len(urls))
+	for i, url := range urls {
+		go func(url string, i int) {
+			if i == 1 {
+				time.Sleep(time.Second * 6)
 			}
-			if curLen > res {
-				res = curLen
+			select {
+			case <-ctx.Done():
+				fmt.Println("cancel request to ", url)
+			default:
+				result := makeRequest(url)
+				resultChan <- result
 			}
-		}
+		}(url, i)
 	}
-	return res
+	// for i := 0; i < len(urls); i++ {
+	select {
+	case res := <-resultChan:
+		fmt.Println("get result", res)
+	case <-ctx.Done():
+		fmt.Println("timeout")
+		return
+	}
+	// }
+}
+
+func test() {
+	urls := []string{"http://localhost", "https://localhost", "http://localhost:1111"}
+	handleRequest(context.Background(), urls)
 }
 
 func main() {
-	fmt.Println(longestConsecutive([]int{100, 4, 200, 1, 3, 2}))
+	test()
 }
