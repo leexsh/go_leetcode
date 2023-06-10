@@ -1,51 +1,52 @@
 package main
 
 import (
-	"context"
 	"fmt"
-	"time"
+	"leexsh/leetcode/leetcode"
 )
 
-func makeRequest(url string) string {
-	s := "make request url is: " + url
-	return s
-}
-
-func handleRequest(ctx context.Context, urls []string) {
-	ctx, cancel := context.WithTimeout(ctx, time.Second*5)
-	defer cancel()
-
-	resultChan := make(chan string, len(urls))
-	for i, url := range urls {
-		go func(url string, i int) {
-			if i == 1 {
-				time.Sleep(time.Second * 6)
-			}
-			select {
-			case <-ctx.Done():
-				fmt.Println("cancel request to ", url)
-			default:
-				result := makeRequest(url)
-				resultChan <- result
-			}
-		}(url, i)
+func sumOfLeftLeaves(root *leetcode.TreeNode) int {
+	if root == nil {
+		return 0
 	}
-	// for i := 0; i < len(urls); i++ {
-	select {
-	case res := <-resultChan:
-		fmt.Println("get result", res)
-	case <-ctx.Done():
-		fmt.Println("timeout")
+	var isLeafNode func(root *leetcode.TreeNode) bool
+	isLeafNode = func(node *leetcode.TreeNode) bool {
+		return node.Left == nil && node.Right == nil
+	}
+	var dfs func(node *leetcode.TreeNode) (res int)
+	dfs = func(node *leetcode.TreeNode) (res int) {
+		if node.Left != nil && isLeafNode(node.Left) {
+			res += node.Left.Val
+		} else if node.Left != nil && !isLeafNode(node) {
+			res += dfs(node.Left)
+		}
+		if node.Right != nil && !isLeafNode(node.Right) {
+			res += dfs(node.Right)
+		}
 		return
 	}
-	// }
-}
-
-func test() {
-	urls := []string{"http://localhost", "https://localhost", "http://localhost:1111"}
-	handleRequest(context.Background(), urls)
+	return dfs(root)
 }
 
 func main() {
-	test()
+	root := &leetcode.TreeNode{
+		Val: 3,
+		Left: &leetcode.TreeNode{
+			Val:   9,
+			Left:  nil,
+			Right: nil,
+		},
+		Right: &leetcode.TreeNode{
+			20,
+			&leetcode.TreeNode{
+				Val:   15,
+				Left:  nil,
+				Right: nil,
+			},
+			&leetcode.TreeNode{
+				7, nil, nil,
+			},
+		},
+	}
+	fmt.Println(sumOfLeftLeaves(root))
 }
