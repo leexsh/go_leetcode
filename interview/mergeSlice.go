@@ -1,8 +1,10 @@
-package main
+package interview
 
-import (
-	"fmt"
-)
+/*
+from 滴滴面试
+	1.两个有序数组合并去重
+	2.链表排序
+*/
 
 func mergeTwoArray(nums1, nums2 []int) []int {
 	l1, l2, l := len(nums1)-1, len(nums2)-1, 0
@@ -80,12 +82,54 @@ func mergeTwoArray(nums1, nums2 []int) []int {
 	return res[:l]
 }
 
-func main() {
-	n1 := []int{0, 0, 1, 1, 1, 2, 2, 3, 3, 3}
-	n2 := []int{0, 0, 2, 2, 2, 3, 3, 5, 5, 5}
-	res := mergeTwoArray(n1, n2)
-	for _, re := range res {
-		fmt.Println(re)
+// 2.链表排序
+type ListNode struct {
+	val  int
+	next *ListNode
+}
 
+func mergeList(l1, l2 *ListNode) *ListNode {
+	if l1 == nil {
+		return l2
 	}
+	if l2 == nil {
+		return l1
+	}
+	pre := &ListNode{
+		val:  -1,
+		next: nil,
+	}
+	cur := pre
+	for l1 != nil && l2 != nil {
+		if l1.val < l2.val {
+			cur.next = l1
+			l1 = l1.next
+		} else {
+			cur.next = l2
+			l2 = l2.next
+		}
+		cur = cur.next
+	}
+	if l1 != nil {
+		cur.next = l1
+	}
+	if l2 != nil {
+		cur.next = l2
+	}
+	return pre.next
+}
+
+func sortList(head *ListNode) *ListNode {
+	if head == nil || head.next == nil {
+		return head
+	}
+	fast, slow, mid := head, head, head
+	for fast != nil && fast.next != nil {
+		fast = fast.next.next
+		mid = slow
+		slow = slow.next
+	}
+	mid.next = nil
+	// need to merge
+	return mergeList(sortList(head), sortList(slow))
 }
