@@ -31,3 +31,5 @@ func canJump(nums []int) bool {
 	}
 	return false
 }
+
+const mode int = 1e9 + 7

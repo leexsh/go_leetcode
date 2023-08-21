@@ -41,7 +41,7 @@ func handleRequest(ctx context.Context, urls []string) {
 	}
 }
 
-func test() {
+func Test() {
 	urls := []string{"http://localhost", "https://localhost", "http://localhost:1111"}
 	handleRequest(context.Background(), urls)
 }
