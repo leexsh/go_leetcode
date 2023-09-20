@@ -13,14 +13,6 @@ import "math"
 */
 
 func maxProfit(prices []int) int {
-	var max func(a, b int) int
-	max = func(a, b int) int {
-		if a > b {
-			return a
-		}
-		return b
-	}
-
 	if len(prices) == 0 {
 		return 0
 	}

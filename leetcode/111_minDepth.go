@@ -3,12 +3,6 @@ package leetcode
 /*
 题目：二叉树的最小深度
 */
-func min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
-}
 func minDepth(root *TreeNode) int {
 	if root == nil {
 		return 0

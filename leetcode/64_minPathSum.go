@@ -14,14 +14,6 @@ func minPathSum(grid [][]int) int {
 	for i := 0; i < m; i++ {
 		dp[i] = make([]int, n)
 	}
-	var min func(a, b int) int
-	min = func(a, b int) int {
-		if a > b {
-			return b
-		}
-		return a
-	}
-
 	for i := 0; i < m; i++ {
 		for j := 0; j < n; j++ {
 			if i == 0 && j == 0 {
