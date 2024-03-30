@@ -16,3 +16,14 @@ func containsDuplicate(nums []int) bool {
 	}
 	return false
 }
+
+func containsDuplicat1e(nums []int) bool {
+	mp := make(map[int]struct{})
+	for _, num := range nums {
+		if _, ok := mp[num]; ok {
+			return true
+		}
+		mp[num] = struct{}{}
+	}
+	return false
+}

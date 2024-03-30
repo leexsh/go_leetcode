@@ -1,4 +1,4 @@
-package main
+package interview
 
 import (
 	"fmt"
@@ -7,15 +7,14 @@ import (
 	"strings"
 )
 
-type ListNode struct {
-	val  int
-	next *ListNode
-}
-type TreeNode struct {
-	left  *TreeNode
-	right *TreeNode
-	val   int
-}
+/*
+
+支持endpoint to uint64
+输入 "127.0.0.1:8080"
+输出 9151314447111823248
+
+from tencent
+*/
 
 func endpointToUint64(endpoint string) uint64 {
 	// 分割IPv4地址和端口号
@@ -27,7 +26,7 @@ func endpointToUint64(endpoint string) uint64 {
 	ip3, _ := strconv.Atoi(ip[2])
 	ip4, _ := strconv.Atoi(ip[3])
 	port, _ := strconv.Atoi(parts[1])
-	var res uint64 = 0
+	var res uint64 = 1
 	portValue := uint64(port)
 	res |= uint64(ip1) << 24
 	res |= uint64(ip2) << 16
@@ -47,17 +46,5 @@ func uint64ToEndpoint(value uint64) string {
 	ip := net.IPv4(byte(value>>24), byte(value>>16), byte(value>>8), byte(value))
 
 	// 格式化IPv4地址和端口号为字符串
-	return fmt.Sprintf("%s:%d", ip, port)
-}
-
-func main() {
-	endpoint := "127.0.0.1:8080"
-
-	// 将端点转换为uint64
-	uintValue := endpointToUint64(endpoint)
-	fmt.Println("Endpoint to uint64:", uintValue)
-
-	// 将uint64转换为端点
-	endpointValue := uint64ToEndpoint(uintValue)
-	fmt.Println("Uint64 to endpoint:", endpointValue)
+	return fmt.Sprintf("%s:%d", ip.String(), port)
 }
