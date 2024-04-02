@@ -1,50 +1,51 @@
-package main
+package interview
 
 import (
-	"fmt"
-	"leexsh/leetcode/interview"
 	"strings"
 )
 
-type ListNode struct {
-	val  int
-	next *ListNode
-}
-type TreeNode struct {
-	left  *TreeNode
-	right *TreeNode
-	val   int
+/*
+string 字符串转为float64
+"123.023" -> 123.023
+".1" -> 0.1
+"-32.23" -> -32.23
+"-123" -> -123
+
+from zoom
+*/
+
+func StringToFloat(input string) float64 {
+	// 去掉空格
+	strings.TrimSpace(input)
+	flag := 1
+	isAfterDot := false
+	var res float64 = 0
+	var res1 float64 = 0
+	var bit float64 = 0.1
+	for i := 0; i < len(input); i++ {
+		if input[i] == '-' {
+			flag = -1
+		} else if input[i] == '.' {
+			isAfterDot = true
+		} else if isAfterDot {
+			num := input[i] - '0'
+			res1 = res1 + float64(num)*bit
+			bit *= 0.1
+		} else if !isAfterDot {
+			num := input[i] - '0'
+			res = res*10 + float64(num)
+		}
+	}
+	return float64((res + res1) * float64(flag))
 }
 
-func deleteDuplicates(head *ListNode) *ListNode {
-	if head == nil || head.next == nil {
-		return head
-	}
-	pre := &ListNode{
-		val:  -1,
-		next: head,
-	}
-	cur, L, R := pre, pre, pre
-	for cur.next != nil {
-		L, R = cur.next, cur.next
-		for R.next != nil && L.val == R.next.val {
-			R = R.next
-		}
-		if L == R {
-			cur = cur.next
-		} else {
-			cur.next = R.next
-		}
-	}
-	return pre.next
-}
-func stringToFloat64(s string) (float64, error) {
+func stringToFloat642(s string) float64 {
 	// 移除字符串中的空格
 	s = strings.TrimSpace(s)
 
 	// 如果字符串为空，则返回错误
 	if s == "" {
-		return 0, fmt.Errorf("empty string")
+		return 0
 	}
 
 	// 定义正负号标志
@@ -71,12 +72,12 @@ func stringToFloat64(s string) (float64, error) {
 		} else if char == '.' {
 			// 如果遇到小数点，则将小数点标志设置为 true
 			if decimalSeen {
-				return 0, fmt.Errorf("multiple decimal points")
+				return 0
 			}
 			decimalSeen = true
 		} else {
 			// 如果遇到非法字符，则返回错误
-			return 0, fmt.Errorf("invalid character: %c", char)
+			return 0
 		}
 	}
 
@@ -92,16 +93,5 @@ func stringToFloat64(s string) (float64, error) {
 		result = -result
 	}
 
-	return result, nil
-}
-func main() {
-	s1 := "123.023"
-	s2 := ".1"
-	s3 := "-32.23"
-	s4 := "-123"
-	strArr := []string{s1, s2, s3, s4}
-	for i := 0; i < len(strArr); i++ {
-		fmt.Println(interview.StringToFloat(strArr[i]))
-		fmt.Println(stringToFloat64(strArr[i]))
-	}
+	return result
 }
