@@ -3,24 +3,25 @@ package algorithm
 /*
    快排
 */
-func quickSort(nums []int, l, r int) {
-	if l < r {
-		m := partition(nums, l, r)
-		quickSort(nums, l, m-1)
-		quickSort(nums, m+1, r)
-	}
-}
 
-func partition(nums []int, l, r int) int {
-	key := nums[r]
-	i, j := l, l
-	for j < r {
-		if nums[j] < key {
-			nums[i], nums[j] = nums[j], nums[i]
+func QuickSort(nums []int) {
+	if len(nums) < 2 {
+		return
+	}
+	val := nums[0]
+	l, r := 0, len(nums)-1
+	for i := 0; i < r; {
+		if nums[i] < val {
+			nums[l], nums[i] = nums[i], nums[l]
+			l++
+			i++
+		} else if nums[i] > val {
+			nums[r], nums[i] = nums[i], nums[r]
+			r--
+		} else {
 			i++
 		}
-		j++
 	}
-	nums[i], nums[r] = nums[r], nums[i]
-	return i
+	QuickSort(nums[:l])
+	QuickSort(nums[r+1:])
 }
