@@ -18,6 +18,7 @@ func QuickSort(nums []int) {
 		} else if nums[i] > val {
 			nums[r], nums[i] = nums[i], nums[r]
 			r--
+			
 		} else {
 			i++
 		}
