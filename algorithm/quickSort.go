@@ -8,21 +8,15 @@ func QuickSort(nums []int) {
 	if len(nums) < 2 {
 		return
 	}
-	val := nums[0]
-	l, r := 0, len(nums)-1
-	for i := 0; i < r; {
-		if nums[i] < val {
-			nums[l], nums[i] = nums[i], nums[l]
-			l++
-			i++
-		} else if nums[i] > val {
-			nums[r], nums[i] = nums[i], nums[r]
-			r--
-			
-		} else {
-			i++
+	value := nums[0]
+	cur := 0
+	for i := 1; i < len(nums); i++ {
+		if nums[i] < value {
+			cur++
+			nums[cur], nums[i] = nums[i], nums[cur]
 		}
 	}
-	QuickSort(nums[:l])
-	QuickSort(nums[r+1:])
+	nums[cur], nums[0] = nums[0], nums[cur]
+	QuickSort(nums[:cur])
+	QuickSort(nums[cur+1:])
 }
