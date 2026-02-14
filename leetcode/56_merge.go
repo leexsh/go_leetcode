@@ -1,12 +1,14 @@
 package leetcode
 
+import "sort"
+
 func merge56(nums [][]int) [][]int {
 	if len(nums) == 0 {
 		return [][]int{}
 	}
 	sort.Slice(nums, func(i, j int) bool {
 		return nums[i][0] < nums[j][0]
-	
+
 	})
 
 	res := make([][]int, 0)

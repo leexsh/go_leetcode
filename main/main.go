@@ -1,22 +1,15 @@
 package main
 
-import (
-	"fmt"
-)
-
 type ListNode struct {
-	val  int
-	next *ListNode
-}
-type TreeNode struct {
-	left  *TreeNode
-	right *TreeNode
-	val   int
+	Val  int
+	Next *ListNode
 }
 
-/*
-   快排
-*/
+type TreeNode struct {
+	Val   int
+	Left  *TreeNode
+	Right *TreeNode
+}
 
 func QuickSort(nums []int) {
 	if len(nums) < 2 {
@@ -36,9 +29,8 @@ func QuickSort(nums []int) {
 }
 
 func main() {
-	nums := []int{4, 25, 16, 7512, 121, 6465}
-	QuickSort(nums)
-	for i := 0; i < len(nums); i++ {
-		fmt.Printf("%d\n", nums[i])
+
+	for i := 0; i < 10; i++ {
+		println(i)
 	}
 }
